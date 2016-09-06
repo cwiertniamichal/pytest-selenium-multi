@@ -72,27 +72,9 @@ def driver_path(request):
 
 
 @pytest.fixture
-def selenium(request):
+def selenium(driver):
     """Returns a WebDriver instance based on options and capabilities"""
-    driver_type = request.config.getoption('driver')
-    if driver_type is None:
-        raise pytest.UsageError('--driver must be specified')
-
-    driver_fixture = '{0}_driver'.format(driver_type.lower())
-    driver = request.getfuncargvalue(driver_fixture)
-
-    event_listener = request.config.getoption('event_listener')
-    if event_listener is not None:
-        # Import the specified event listener and wrap the driver instance
-        mod_name, class_name = event_listener.rsplit('.', 1)
-        mod = __import__(mod_name, fromlist=[class_name])
-        event_listener = getattr(mod, class_name)
-        if not isinstance(driver, EventFiringWebDriver):
-            driver = EventFiringWebDriver(driver, event_listener())
-
-    request.node._driver = driver
-    request.addfinalizer(driver.quit)
-    return driver
+    return driver.get_instance()
 
 
 def pytest_configure(config):

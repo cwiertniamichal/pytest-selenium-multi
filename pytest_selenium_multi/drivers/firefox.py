@@ -2,9 +2,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from copy import deepcopy
+
 import pytest
 from selenium.webdriver import Firefox, FirefoxProfile
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+
+from utils import factory
 
 
 def pytest_addoption(parser):
@@ -31,19 +35,24 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture
-def firefox_driver(request, capabilities, driver_path, firefox_profile,
-                   firefox_path):
-    """Return a WebDriver using a Firefox instance"""
-    kwargs = {}
-    if capabilities:
-        kwargs['capabilities'] = capabilities
-    if driver_path is not None:
-        kwargs['executable_path'] = driver_path
-    if firefox_path is not None:
-        # get firefox binary from options until there's capabilities support
-        kwargs['firefox_binary'] = FirefoxBinary(firefox_path)
-    kwargs['firefox_profile'] = firefox_profile
-    return Firefox(**kwargs)
+def firefox_driver(capabilities, driver_path, firefox_profile, firefox_path):
+    """Return a factory function creating Firefox WebDriver instances.
+    """
+    @factory
+    def _get_instance():
+        """Return Firefox WebDriver instance based on given options.
+        """
+        kwargs = {}
+        if capabilities:
+            kwargs['capabilities'] = deepcopy(capabilities)
+        if driver_path:
+            kwargs['executable_path'] = driver_path
+        if firefox_path:
+            # get firefox binary from options until there's capabilities support
+            kwargs['firefox_binary'] = FirefoxBinary(firefox_path)
+        kwargs['firefox_profile'] = firefox_profile.get_instance()
+        return Firefox(**kwargs)
+    return _get_instance
 
 
 @pytest.fixture(scope='session')
@@ -53,17 +62,24 @@ def firefox_path(request):
 
 @pytest.fixture
 def firefox_profile(request):
-    profile = FirefoxProfile(request.config.getoption('firefox_profile'))
-    for preference in request.config.getoption('firefox_preferences'):
-        name, value = preference
-        if value.isdigit():
-            # handle integer preferences
-            value = int(value)
-        elif value.lower() in ['true', 'false']:
-            # handle boolean preferences
-            value = value.lower() == 'true'
-        profile.set_preference(name, value)
-    profile.update_preferences()
-    for extension in request.config.getoption('firefox_extensions'):
-        profile.add_extension(extension)
-    return profile
+    """Return a factory function creating Firefox profile instances.
+    """
+    @factory
+    def _get_instance():
+        """Return Firefox profile instance based on given options.
+        """
+        profile = FirefoxProfile(request.config.getoption('firefox_profile'))
+        for preference in request.config.getoption('firefox_preferences'):
+            name, value = preference
+            if value.isdigit():
+                # handle integer preferences
+                value = int(value)
+            elif value.lower() in ['true', 'false']:
+                # handle boolean preferences
+                value = value.lower() == 'true'
+            profile.set_preference(name, value)
+        profile.update_preferences()
+        for extension in request.config.getoption('firefox_extensions'):
+            profile.add_extension(extension)
+        return profile
+    return _get_instance
