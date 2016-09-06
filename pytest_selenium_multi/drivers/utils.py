@@ -9,3 +9,4 @@ def factory(fun):
                              'attribute'.format(fun.__name__))
     else:
         fun.get_instance = lambda *args, **kwargs: fun(*args, **kwargs)
+        return fun
