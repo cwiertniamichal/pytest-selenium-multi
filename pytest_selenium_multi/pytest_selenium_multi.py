@@ -8,8 +8,6 @@ import os
 import sys
 
 import pytest
-from selenium.webdriver.support.event_firing_webdriver import \
-    EventFiringWebDriver
 
 PY3 = sys.version_info[0] == 3
 
