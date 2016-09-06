@@ -16,7 +16,7 @@ setup(name='pytest-selenium-multi',
           'selenium>=2.26.0',
           'requests'],
       entry_points={'pytest11': [
-          'selenium = pytest_selenium_multi.pytest_selenium',
+          'selenium = pytest_selenium_multi.pytest_selenium_multi',
           'selenium_safety = pytest_selenium_multi.safety',
           'browserstack_driver = pytest_selenium_multi.drivers.browserstack',
           'chrome_driver = pytest_selenium_multi.drivers.chrome',

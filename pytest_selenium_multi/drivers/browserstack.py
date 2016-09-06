@@ -8,7 +8,7 @@ import pytest
 import requests
 from selenium.webdriver import Remote
 
-from pytest_selenium import split_class_and_test_names
+from pytest_selenium_multi import split_class_and_test_names
 
 DRIVER = 'BrowserStack'
 API_JOB_URL = 'https://www.browserstack.com/automate/sessions/{session}.json'

@@ -10,7 +10,7 @@ from py.xml import html
 import requests
 from selenium.webdriver import Remote
 
-from pytest_selenium import split_class_and_test_names
+from pytest_selenium_multi import split_class_and_test_names
 
 DRIVER = 'TestingBot'
 API_JOB_URL = 'https://api.testingbot.com/v1/tests/{session}'

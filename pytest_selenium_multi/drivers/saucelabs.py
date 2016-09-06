@@ -11,7 +11,7 @@ import pytest
 import requests
 from selenium.webdriver import Remote
 
-from pytest_selenium import split_class_and_test_names
+from pytest_selenium_multi import split_class_and_test_names
 
 DRIVER = 'SauceLabs'
 API_JOB_URL = 'http://saucelabs.com/rest/v1/{username}/jobs/{session}'
