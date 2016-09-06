@@ -98,7 +98,7 @@ def driver(request):
         """Return WebDriver instance based on given options.
         """
         web_driver = driver_factory.get_instance()
-        if not isinstance(web_driver, EventFiringWebDriver):
+        if event_listener and not isinstance(web_driver, EventFiringWebDriver):
             web_driver = EventFiringWebDriver(web_driver, event_listener())
 
         request.node._driver = web_driver
