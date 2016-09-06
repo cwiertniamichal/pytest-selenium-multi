@@ -108,9 +108,23 @@ def driver(request):
 
 
 @pytest.fixture
-def selenium(driver):
+def config_driver():
+    def _configure(driver):
+        return driver
+    return _configure
+
+
+def select_browser(selenium, browser_id):
+    browser = selenium[browser_id]
+    selenium['request'].node._driver = browser
+    return browser
+
+
+@pytest.fixture
+def selenium(request, driver, config_driver):
     """Returns a WebDriver instance based on options and capabilities"""
-    return driver.get_instance()
+    return {'browser': config_driver(driver.get_instance()),
+            'request': request}
 
 
 def pytest_configure(config):
