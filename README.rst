@@ -1,15 +1,12 @@
-pytest-selenium
+pytest-selenium-multi
 ===============
 
-pytest-selenium is a plugin for `py.test <http://pytest.org>`_ that provides
+pytest-selenium-multi is a plugin for `py.test <http://pytest.org>`_ that provides
 support for running `Selenium <http://seleniumhq.org/>`_ based tests.
 
 .. image:: https://img.shields.io/badge/license-MPL%202.0-blue.svg
-   :target: https://github.com/pytest-dev/pytest-selenium/blob/master/LICENSE
+   :target: https://github.com/pytest-dev/pytest-selenium-multi/blob/master/LICENSE
    :alt: License
-.. image:: https://img.shields.io/pypi/v/pytest-selenium.svg
-   :target: https://pypi.python.org/pypi/pytest-selenium/
-   :alt: PyPI
 .. image:: https://img.shields.io/travis/pytest-dev/pytest-selenium.svg
    :target: https://travis-ci.org/pytest-dev/pytest-selenium/
    :alt: Travis

@@ -121,10 +121,9 @@ def select_browser(selenium, browser_id):
 
 
 @pytest.fixture
-def selenium(request, driver, config_driver):
+def selenium(request):
     """Returns a WebDriver instance based on options and capabilities"""
-    return {'browser': config_driver(driver.get_instance()),
-            'request': request}
+    return {'request': request}
 
 
 def pytest_configure(config):
