@@ -51,7 +51,7 @@ def firefox_driver(capabilities, driver_path, firefox_profile, firefox_path):
             # get firefox binary from options until there's capabilities support
             kwargs['firefox_binary'] = FirefoxBinary(firefox_path)
         kwargs['firefox_profile'] = firefox_profile.get_instance()
-	kwargs['timeout'] = 60
+        kwargs['timeout'] = 60
         return Firefox(**kwargs)
     return _get_instance
 
